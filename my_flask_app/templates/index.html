@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список дел</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial;
+            margin: 40px auto;
+            max-width: 600px;
+        }
+
+        h1 {
+            color: #1a73e8;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #1557b0;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: white;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .task-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .task-text {
+            font-size: 16px;
+        }
+
+        .task-date {
+            font-size: 12px;
+            color: #888;
+            margin-top: 3px;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .edit-btn {
+            color: #1a73e8;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .edit-btn:hover {
+            color: #1557b0;
+            text-decoration: underline;
+        }
+
+        .delete-btn {
+            color: #e74c3c;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .delete-btn:hover {
+            color: #c0392b;
+        }
+
+        .clear-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .clear-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>Мои задачи</h1>
+
+    <h2>Добавить задачу</h2>
+    <form method="POST" action="/add">
+        <input type="text" name="task" placeholder="Новая задача" required>
+        <button type="submit">Добавить</button>
+    </form>
+
+    {% if tasks %}
+        <ul>
+            {% for task in tasks %}
+                <li>
+                    <div class="task-content">
+                        <span class="task-text">{{ task.text }}</span>
+                        <span class="task-date"> {{ task.date }}</span>
+                    </div>
+                    <div class="task-actions">
+                        <a href="/edit/{{ loop.index0 }}" class="edit-btn">Редактировать</a>
+                        <a href="/delete/{{ loop.index0 }}" class="delete-btn">✕</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="/clear" class="clear-btn">Очистить всё</a>
+    {% else %}
+        <p class="empty-message">Список задач пуст. Добавьте первую задачу!</p>
+    {% endif %}
+</body>
+</html>
