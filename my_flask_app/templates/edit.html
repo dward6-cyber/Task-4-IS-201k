@@ -1,96 +1,174 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Редактировать задачу</title>
+    <title>МОДИФИКАЦИЯ ПРОТОКОЛА</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial;
-            margin: 40px auto;
-            max-width: 500px;
-            background-color: #f0f0f0;
-        }
-
-        h1 {
-            color: #1a73e8;
-        }
-
-        form {
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
+        * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
-        .buttons {
-            margin-top: 12px;
+        body {
+            background: #0a0a0a;
+            background-image: 
+                linear-gradient(0deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            font-family: 'Orbitron', monospace;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            color: #00ffff;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
         }
 
-        button {
-            padding: 10px 20px;
-            background-color: #1a73e8;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
+        .container {
+            width: 500px;
         }
 
-        button:hover {
-            background-color: #1557b0;
+        .form-block {
+            background: rgba(10, 10, 10, 0.8);
+            border: 2px solid #00ffff;
+            padding: 30px;
+            box-shadow: 0 0 10px #00ffff, 0 0 30px rgba(0, 255, 255, 0.2);
+            position: relative;
         }
 
-        .cancel {
-            color: #888;
-            text-decoration: none;
-            font-size: 14px;
+        h1 {
+            font-size: 24px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
+            margin-bottom: 25px;
         }
 
-        .cancel:hover {
-            color: #333;
+        .info-panel {
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid #ff0055;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(255, 0, 85, 0.2);
+        }
+
+        .info-item {
+            margin: 5px 0;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        .info-label {
+            color: #ff0055;
         }
 
         .message {
             padding: 10px;
-            border-radius: 5px;
             margin-bottom: 15px;
-            color: #cc0000;
-            background-color: #ffe6e6;
+            border: 1px solid;
+            font-size: 12px;
+            letter-spacing: 1px;
         }
 
-        .task-date {
-            color: #888;
+        .error-message {
+            border-color: #ff0055;
+            color: #ff0055;
+            box-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
+        }
+
+        .info-message {
+            border-color: #ffaa00;
+            color: #ffaa00;
+            box-shadow: 0 0 10px rgba(255, 170, 0, 0.3);
+        }
+
+        .cyber-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(10, 10, 10, 0.8);
+            border: 2px solid #00ffff;
+            color: #00ffff;
+            font-family: 'Orbitron', monospace;
             font-size: 14px;
-            margin-bottom: 15px;
+            letter-spacing: 1px;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .cyber-btn {
+            padding: 12px 25px;
+            background: transparent;
+            border: 2px solid #00ffff;
+            color: #00ffff;
+            font-family: 'Orbitron', monospace;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cyber-btn:hover {
+            background: #00ffff;
+            color: #0a0a0a;
+            box-shadow: 0 0 30px #00ffff;
+        }
+
+        .cancel-link {
+            color: rgba(0, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 12px;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .cancel-link:hover {
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
         }
     </style>
 </head>
 <body>
-    <h1>Редактирование задачи</h1>
+    <div class="container">
+        <div class="form-block">
+            <h1>⚙ МОДИФИКАЦИЯ ПРОТОКОЛА</h1>
 
-    {% if message %}
-        <p class="message">{{ message }}</p>
-    {% endif %}
+            {% if message %}
+                {% if 'не может быть пустым' in message or 'не изменено' in message %}
+                    <div class="message error-message">⚠ {{ message }}</div>
+                {% else %}
+                    <div class="message info-message">ℹ {{ message }}</div>
+                {% endif %}
+            {% endif %}
 
-    <p class="task-date">Создана: {{ task.date }}</p>
+            <div class="info-panel">
+                <div class="info-item">
+                    <span class="info-label">СОЗДАН:</span> {{ task.date }}
+                </div>
+                <div class="info-item">
+                    <span class="info-label">СТАТУС:</span> 
+                    {% if task.done %}✓ ЗАВЕРШЁН{% else %}◉ АКТИВЕН{% endif %}
+                </div>
+            </div>
 
-    <form method="POST">
-        <input type="text" name="task" value="{{ task.text }}" required>
-        <div class="buttons">
-            <button type="submit">Сохранить</button>
-            <a href="/" class="cancel">Отмена</a>
+            <form method="POST">
+                <input type="text" name="task" value="{{ task.text }}" class="cyber-input" required>
+                <div class="buttons">
+                    <button type="submit" class="cyber-btn">СОХРАНИТЬ</button>
+                    <a href="/" class="cancel-link">◄ ОТМЕНА</a>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </body>
 </html>

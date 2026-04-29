@@ -29,7 +29,8 @@ def add_task():
     if new_task_text:
         task = {
             'text': new_task_text,
-            'date': datetime.now().strftime('%d.%m.%Y %H:%M')
+            'date': datetime.now().strftime('%d.%m.%Y %H:%M'),
+            'done': False
         }
         tasks.append(task)
         save_tasks(tasks)
@@ -48,6 +49,13 @@ def clear_tasks():
     save_tasks(tasks)
     return redirect('/')
 
+@app.route('/toggle/<int:task_id>')
+def toggle_task(task_id):
+    if 0 <= task_id < len(tasks):
+        tasks[task_id]['done'] = not tasks[task_id]['done']
+        save_tasks(tasks)
+    return redirect('/')
+
 @app.route('/edit/<int:task_id>', methods=['GET', 'POST'])
 def edit_task(task_id):
     if task_id < 0 or task_id >= len(tasks):
@@ -64,7 +72,7 @@ def edit_task(task_id):
                 task=task,
                 message="Текст не может быть пустым!"
             )
-        
+       
         old_text = task['text']
         if new_text == old_text:
             return render_template(
@@ -78,6 +86,30 @@ def edit_task(task_id):
 
     else:
         return render_template('edit.html', task=task)
+
+@app.route('/active')
+def active_tasks():
+    active = [task for task in tasks if not task.get('done', False)]
+    return render_template('index.html', tasks=active, show_active=True)
+
+@app.route('/completed')
+def completed_tasks():
+    completed = [task for task in tasks if task.get('done', False)]
+    return render_template('index.html', tasks=completed, show_completed=True)
+
+@app.route('/complete-all')
+def complete_all():
+    for task in tasks:
+        task['done'] = True
+    save_tasks(tasks)
+    return redirect('/')
+
+@app.route('/incomplete-all')
+def incomplete_all():
+    for task in tasks:
+        task['done'] = False
+    save_tasks(tasks)
+    return redirect('/')
 
 if __name__ == '__main__':
     app.run(debug=True)
