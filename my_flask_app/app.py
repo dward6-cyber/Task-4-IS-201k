@@ -19,6 +19,15 @@ def save_tasks(tasks):
 
 tasks = load_tasks()
 
+@app.route('/search')
+def search():
+    query = request.args.get('q', '').strip().lower()
+    if query:
+        filtered_tasks = [task for task in tasks if query in task['text'].lower()]
+    else:
+        filtered_tasks = tasks
+    return render_template('index.html', tasks=filtered_tasks, search_query=query)
+
 @app.route('/')
 def index():
     return render_template('index.html', tasks=tasks)
@@ -26,11 +35,14 @@ def index():
 @app.route('/add', methods=['POST'])
 def add_task():
     new_task_text = request.form['task']
+    task_priority = request.form.get('priority', 'Обычный')
+    
     if new_task_text:
         task = {
             'text': new_task_text,
             'date': datetime.now().strftime('%d.%m.%Y %H:%M'),
-            'done': False
+            'done': False,
+            'priority': task_priority
         }
         tasks.append(task)
         save_tasks(tasks)
@@ -80,6 +92,10 @@ def edit_task(task_id):
                 task=task,
                 message="Ничего не изменено"
             )
+            
+        new_priority = request.form.get('priority', 'Обычный')
+        tasks[task_id]['priority'] = new_priority
+        
         tasks[task_id]['text'] = new_text
         save_tasks(tasks)
         return redirect('/')
@@ -110,6 +126,31 @@ def incomplete_all():
         task['done'] = False
     save_tasks(tasks)
     return redirect('/')
+
+#ПР7
+@app.route('/sort/date')
+def sort_by_date(): 
+    sorted_tasks = sorted(tasks, key=lambda t: t.get('date', ''), reverse=True)
+    return render_template('index.html', tasks=sorted_tasks)
+
+@app.route('/sort/status')
+def sort_by_status():
+    sorted_tasks = sorted(tasks, key=lambda t: t.get('done', False))
+    return render_template('index.html', tasks=sorted_tasks)
+
+@app.route('/sort/priority')
+def sort_by_priority():
+    priority_order = {'Высокий': 1, 'Обычный': 2, 'Низкий': 3}
+    sorted_tasks = sorted(
+        tasks,
+        key=lambda t: priority_order.get(t.get('priority', 'Обычный'), 2)
+    )
+    return render_template('index.html', tasks=sorted_tasks)
+
+@app.route('/sort/alpha')
+def sort_by_alpha():
+    sorted_tasks = sorted(tasks, key=lambda t: t.get('text', '').lower())
+    return render_template('index.html', tasks=sorted_tasks)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,405 +1,233 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Психо Task</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>Список задач</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            background: #0a0a0a;
-            background-image: 
-                linear-gradient(0deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 30px 30px;
-            font-family: 'Orbitron', monospace;
-            margin: 0;
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
             padding: 20px;
-            min-height: 100vh;
-            color: #00ffff;
-            position: relative;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(ellipse at center, rgba(0, 255, 255, 0.05) 0%, transparent 70%);
-            pointer-events: none;
+            background-color: #f5f5f5;
         }
 
         .container {
-            max-width: 700px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .title-block {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            border: 2px solid #00ffff;
-            box-shadow: 0 0 10px #00ffff, 0 0 30px rgba(0, 255, 255, 0.3), inset 0 0 10px rgba(0, 255, 255, 0.1);
-            background: rgba(10, 10, 10, 0.8);
-            position: relative;
-        }
-
-        .title-block::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            border: 1px solid #ff0055;
-            box-shadow: 0 0 5px #ff0055;
-            animation: glitch-border 3s infinite;
-        }
-
-        @keyframes glitch-border {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         h1 {
-            font-size: 36px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            color: #00ffff;
-            text-shadow: 0 0 10px #00ffff, 0 0 30px rgba(0, 255, 255, 0.5);
-            margin: 0;
-            position: relative;
-        }
-
-        .subtitle {
-            font-size: 12px;
-            color: #ff0055;
-            letter-spacing: 3px;
-            margin-top: 5px;
-            text-shadow: 0 0 5px #ff0055;
+            text-align: center;
+            color: #333;
         }
 
         .counter {
             text-align: center;
-            margin: 20px 0;
-            padding: 15px;
-            background: rgba(0, 255, 255, 0.05);
-            border: 1px solid #00ffff;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
-            font-size: 16px;
-            letter-spacing: 2px;
+            margin: 15px 0;
+            color: #666;
         }
 
-        .counter span {
-            color: #ff0055;
-            font-size: 24px;
-            font-weight: 900;
-            text-shadow: 0 0 10px #ff0055;
-        }
-
-        h2 {
-            font-size: 18px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            color: #ff0055;
-            text-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
-        }
-
-        .add-form {
+        form {
             display: flex;
             gap: 10px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
-        .cyber-input {
+        input {
             flex: 1;
-            padding: 12px 15px;
-            background: rgba(10, 10, 10, 0.8);
-            border: 2px solid #00ffff;
-            color: #00ffff;
-            font-family: 'Orbitron', monospace;
-            font-size: 14px;
-            letter-spacing: 1px;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
-            transition: all 0.3s;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
         }
 
-        .cyber-input:focus {
-            outline: none;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), inset 0 0 10px rgba(0, 255, 255, 0.1);
-        }
-
-        .cyber-input::placeholder {
-            color: rgba(0, 255, 255, 0.3);
-        }
-
-        .cyber-btn {
-            padding: 12px 25px;
-            background: transparent;
-            border: 2px solid #00ffff;
-            color: #00ffff;
-            font-family: 'Orbitron', monospace;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        button {
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            white-space: nowrap;
+            font-size: 16px;
         }
 
-        .cyber-btn:hover {
-            background: #00ffff;
-            color: #0a0a0a;
-            box-shadow: 0 0 30px #00ffff;
+        button:hover {
+            background: #45a049;
         }
 
-        .cyber-btn.danger {
-            border-color: #ff0055;
-            color: #ff0055;
-        }
-
-        .cyber-btn.danger:hover {
-            background: #ff0055;
-            color: #0a0a0a;
-            box-shadow: 0 0 30px #ff0055;
-        }
-
-        .filter-panel {
+        .buttons {
             display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
+            gap: 8px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
 
-        .filter-btn {
+        .btn {
             padding: 8px 15px;
-            border: 1px solid #00ffff;
-            color: #00ffff;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
             text-decoration: none;
-            font-size: 11px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: all 0.3s;
-            background: transparent;
-            cursor: pointer;
-            font-family: 'Orbitron', monospace;
+            color: #333;
+            font-size: 14px;
         }
 
-        .filter-btn:hover {
-            background: #00ffff;
-            color: #0a0a0a;
-            box-shadow: 0 0 20px #00ffff;
+        .btn:hover {
+            background: #eee;
         }
 
-        .task-list {
+        ul {
             list-style: none;
             padding: 0;
         }
 
-        .task-item {
-            background: rgba(10, 10, 10, 0.8);
-            border: 1px solid #00ffff;
-            margin-bottom: 12px;
-            padding: 15px;
+        li {
+            padding: 12px;
+            margin-bottom: 8px;
+            background: #fafafa;
+            border-radius: 5px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
-            transition: all 0.3s;
-            position: relative;
         }
 
-        .task-item:hover {
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-            transform: translateX(5px);
-        }
-
-        .task-item.completed-task {
-            border-color: #ff0055;
-            box-shadow: 0 0 10px rgba(255, 0, 85, 0.2);
-            opacity: 0.7;
-        }
-
-        .task-content {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .task-text {
-            font-size: 16px;
-            letter-spacing: 1px;
-        }
-
-        .task-text.done {
-            color: #ff0055;
+        .done {
             text-decoration: line-through;
-            text-shadow: 0 0 5px rgba(255, 0, 85, 0.3);
+            color: #999;
         }
 
-        .task-date {
-            font-size: 10px;
-            color: rgba(0, 255, 255, 0.5);
-            margin-top: 5px;
-            letter-spacing: 1px;
-        }
-
-        .task-actions {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .action-link {
-            color: #00ffff;
-            text-decoration: none;
+        .date {
             font-size: 12px;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-            padding: 5px;
+            color: #999;
         }
 
-        .action-link:hover {
-            text-shadow: 0 0 10px #00ffff;
-            color: #ffffff;
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+            margin-left: 10px;
+            font-size: 14px;
         }
 
-        .action-link.delete {
-            color: #ff0055;
-            font-weight: bold;
-            font-size: 16px;
+        a:hover {
+            text-decoration: underline;
         }
 
-        .action-link.delete:hover {
-            text-shadow: 0 0 10px #ff0055;
+        .delete {
+            color: #e74c3c;
         }
 
-        .clear-all {
+        .clear {
             display: block;
             width: 100%;
-            padding: 15px;
-            margin-top: 20px;
-            background: transparent;
-            border: 2px solid #ff0055;
-            color: #ff0055;
-            font-family: 'Orbitron', monospace;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            cursor: pointer;
-            transition: all 0.3s;
+            padding: 10px;
+            margin-top: 15px;
+            background: #e74c3c;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
         }
 
-        .clear-all:hover {
-            background: #ff0055;
-            color: #0a0a0a;
-            box-shadow: 0 0 30px #ff0055;
+        .clear:hover {
+            background: #c0392b;
+            text-decoration: none;
         }
 
         .empty {
             text-align: center;
-            padding: 40px;
-            border: 1px dashed #00ffff;
-            color: rgba(0, 255, 255, 0.5);
-            letter-spacing: 2px;
+            color: #999;
+            padding: 30px;
+        }
+        .sorting-links {
+            text-align: center;
+            margin-bottom: 15px;
             font-size: 14px;
+            color: #666;
         }
-
-        @keyframes scanline {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
+        .sorting-links a {
+            color: #3498db;
+            margin: 0 5px;
         }
-
-        .scanline {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: rgba(0, 255, 255, 0.1);
-            animation: scanline 3s linear infinite;
-            pointer-events: none;
-            z-index: 999;
+        .sorting-links a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="scanline"></div>
-
+<form action="/search" method="get" class="search-form">
+    <input type="text" name="q" placeholder="Поиск по задачам..." value="{{ search_query or '' }}">
+    <button type="submit"> Найти</button>
+</form>
     <div class="container">
-        <div class="title-block">
-            <h1>Psy-Task</h1>
-            <div class="subtitle">Откройте задачи по-новому</div>
-        </div>
+        <h1>Мои задачи</h1>
 
         <div class="counter">
-            ⚠ АКТИВНЫХ ПРОТОКОЛОВ: <span>{{ tasks|selectattr('done', 'equalto', False)|list|length }}</span>
+            Осталось задач: <strong>{{ tasks|selectattr('done', 'equalto', False)|list|length }}</strong>
         </div>
 
-        <h2>▶ Новый протокол</h2>
-        <form method="POST" action="/add" class="add-form">
-            <input type="text" name="task" placeholder="ВВЕДИТЕ ЗАДАЧУ..." class="cyber-input" required>
-            <button type="submit" class="cyber-btn">ВЫПОЛНИТЬ</button>
+        <form method="POST" action="/add">
+            <input type="text" name="task" placeholder="Новая задача" required>
+            
+            <select name="priority" style="padding: 10px; border-radius: 5px; border: 1px solid #ddd; font-size: 14px;">
+                <option value="Низкий">Низкий</option>
+                <option value="Обычный" selected>Обычный</option>
+                <option value="Высокий">Высокий</option>
+            </select>
+            
+            <button type="submit">Добавить</button>
         </form>
 
-        <div class="filter-panel">
+        <div class="buttons">
             {% if show_active %}
-                <a href="/" class="filter-btn">◄ ВСЕ ПРОТОКОЛЫ</a>
+                <a href="/" class="btn">Все задачи</a>
             {% else %}
-                <a href="/active" class="filter-btn">◉ АКТИВНЫЕ</a>
+                <a href="/active" class="btn">Активные</a>
             {% endif %}
-            
+           
             {% if show_completed %}
-                <a href="/" class="filter-btn">◄ ВСЕ ПРОТОКОЛЫ</a>
+                <a href="/" class="btn">Все задачи</a>
             {% else %}
-                <a href="/completed" class="filter-btn">✓ ЗАВЕРШЁННЫЕ</a>
+                <a href="/completed" class="btn">Выполненные</a>
             {% endif %}
-            
-            <a href="/complete-all" class="filter-btn">ВЫПОЛНИТЬ ВСЕ</a>
-            <a href="/incomplete-all" class="filter-btn">↺ СБРОСИТЬ ВСЕ</a>
+           
+            <a href="/complete-all" class="btn">Выполнить все</a>
+            <a href="/incomplete-all" class="btn">Отменить все</a>
+        </div>
+
+        <div class="sorting-links">
+            Сортировка:
+            <a href="/sort/date">По дате (новые)</a> |
+            <a href="/sort/status">По статусу</a> |
+            <a href="/sort/priority">По приоритету</a> |
+            <a href="/sort/alpha">По алфавиту</a>
         </div>
 
         {% if tasks %}
-            <ul class="task-list">
+            <ul>
                 {% for task in tasks %}
-                    <li class="task-item {% if task.done %}completed-task{% endif %}">
-                        <div class="task-content">
-                            {% if task.done %}
-                                <span class="task-text done">{{ task.text }}</span>
-                            {% else %}
-                                <span class="task-text">{{ task.text }}</span>
-                            {% endif %}
-                            <span class="task-date">{{ task.date }}</span>
+                    <li>
+                        <div>
+                            <span class="{% if task.done %}done{% endif %}">{{ task.text }}</span>
+                            <br>
+                            <span class="date">{{ task.date }}</span>
+                            
+                            <span style="font-size: 12px; margin-left: 8px; color: #e67e22; font-weight: bold;">
+                                [{{ task.get('priority', 'Обычный') }}]
+                            </span>
                         </div>
-                        <div class="task-actions">
-                            <a href="/toggle/{{ loop.index0 }}" class="action-link">✓ ВЫП</a>
-                            <a href="/edit/{{ loop.index0 }}" class="action-link">✎ РЕД</a>
-                            <a href="/delete/{{ loop.index0 }}" class="action-link delete">⌫</a>
+                        <div>
+                            <a href="/toggle/{{ loop.index0 }}">✓</a>
+                            <a href="/edit/{{ loop.index0 }}">✎</a>
+                            <a href="/delete/{{ loop.index0 }}" class="delete">✕</a>
                         </div>
                     </li>
                 {% endfor %}
             </ul>
-            <a href="/clear" class="clear-all">⚠ ОЧИСТИТЬ ВСЕ ПРОТОКОЛЫ</a>
+            <a href="/clear" class="clear">Очистить всё</a>
         {% else %}
-            <div class="empty">
-                [НЕТ АКТИВНЫХ ПРОТОКОЛОВ]
-                <br><br>
-                ИНИЦИАЛИЗИРУЙТЕ НОВУЮ ЗАДАЧУ
-            </div>
+            <p class="empty">Список задач пуст</p>
         {% endif %}
     </div>
 </body>
